@@ -1,0 +1,72 @@
+import java.io.*;
+import java.math.*;
+import java.text.*;
+import java.util.*;
+import java.util.regex.*;
+
+public class Solution {
+      public static BigInteger fact(int n)
+         {
+            BigInteger f=new BigInteger("1");
+            for(int i=2;i<=n;i++)
+            f=f.multiply(BigInteger.valueOf(i));
+            return f;
+         }
+    // Complete the solve function below.
+    static long[] solve(int n) {
+             long arr[]=new long[n+1];
+      int k=n;
+      arr[0]=1l;
+      arr[n]=1l;
+      int x=n;
+      BigInteger mul=BigInteger.ONE;
+      for(int i=1;i<=n/2;i++)
+      {x=n;
+          for(int j=1;j<=i;j++)
+          {
+              mul=mul.multiply(BigInteger.valueOf(x));x--;
+          }
+            BigInteger itemp=fact(i);
+            BigInteger tempdiv=BigInteger.valueOf(10);
+            BigInteger div=tempdiv.pow(9);
+            BigInteger tempres=mul.divide(itemp);
+            BigInteger res=tempres.mod(div);
+                arr[i]=res.longValue();
+              arr[n-i]=res.longValue();
+                mul=BigInteger.ONE;
+
+      } 
+      
+         return arr;
+    }
+
+    private static final Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) throws IOException {
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        int t = scanner.nextInt();
+        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+        for (int tItr = 0; tItr < t; tItr++) {
+            int n = scanner.nextInt();
+            scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+            long[] result = solve(n);
+
+            for (int resultItr = 0; resultItr < result.length; resultItr++) {
+                bufferedWriter.write(String.valueOf(result[resultItr]));
+
+                if (resultItr != result.length - 1) {
+                    bufferedWriter.write(" ");
+                }
+            }
+
+            bufferedWriter.newLine();
+        }
+
+        bufferedWriter.close();
+
+        scanner.close();
+    }
+}
