@@ -1,0 +1,112 @@
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.regex.*;
+
+public class Solution {
+           static String juliancal(int year)
+              {
+                  String res="";
+                   int months[]={31,29,31,30,31,30,31,31,30,31,30,31};
+                  int leap=0;
+                    if(year>=1700&&year<=1917)
+                    {
+                          if(year%4==0)
+                               leap=year;
+                            if(leap==0)
+                          months[1]=28;}
+                     else if(year>=1919&&year<=2700)   
+                     {
+                                 int flag=0;
+                                if(year%400==0)
+                                  flag=1;
+                                  else if(year%100==0)
+                                    flag=0;
+                                    else if(year%4==0)
+                                      flag=1;
+                                      else
+                                      flag=0;
+                               if(flag==0)
+                              months[1]=28;
+                     }  
+                             int diff=256,pos=0,sum=0;
+                             for(int i=0;i<months.length;i++)
+                               {
+                                   sum+=months[i];
+                                   if(diff<sum)
+                                   {
+                                       sum=sum-months[i];
+                                       pos=i+1;
+                                       diff-=sum;
+                                       break;
+                                   }
+                               }
+                               int date=diff;
+                               int m=pos;
+                              if(date<10)
+                               res+="0"+date+""+".";
+                               else
+                                res+=date+""+".";
+                                if(m<10)
+                                res+="0"+m+""+".";
+                               else
+                                res+=m+""+".";
+                                res+=year+"";
+                         return res;
+              }            
+              static String oneeight(int year)
+              {
+                   String res="";
+                   int months[]={31,15,31,30,31,30,31,31,30,31,30,31};
+                    int diff=256,pos=0,sum=0;
+                             for(int i=0;i<months.length;i++)
+                               {
+                                   sum+=months[i];
+                                   if(diff<sum)
+                                   {
+                                       sum=sum-months[i];
+                                       pos=i+1;
+                                       diff-=sum;
+                                       break;
+                                   }
+                               }
+                               int date=diff;
+                               int m=pos;
+                               if(m==2)
+                                  date+=14;
+                                res+=date+""+".";
+                                if(m<10)
+                                res+="0"+m+""+".";
+                               else
+                                res+=m+""+".";
+                                res+=year+"";
+                         return res;
+              }
+    // Complete the dayOfProgrammer function below.
+    static String dayOfProgrammer(int year) {
+           String x="";
+           if(year>=1700&&year<=1917||year>=1919&&year<=2700)
+              x=juliancal(year);
+              else
+              x=oneeight(year);
+             return x;
+    }
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        int year = Integer.parseInt(bufferedReader.readLine().trim());
+
+        String result = dayOfProgrammer(year);
+
+        bufferedWriter.write(result);
+        bufferedWriter.newLine();
+
+        bufferedReader.close();
+        bufferedWriter.close();
+    }
+}
